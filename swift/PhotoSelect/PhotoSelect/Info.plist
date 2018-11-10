@@ -11,9 +11,34 @@
 			<string>MKDirectionsRequest</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.apple.maps.directionsrequest</string>
+				<string>com.cwxstat.rx.PhotoSelect.myfiletype</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>Import Document</string>
+			<key>UTImportedTypeDeclarations</key>
+			<array>
+				<dict>
+					<key>UTTypeConformsTo</key>
+					<array>
+						<string>fun</string>
+					</array>
+					<key>UTTypeIdentifier</key>
+					<string>com.cwxstat.rx.PhotoSelect.myfiletype</string>
+					<key>UTTypeTagSpecification</key>
+					<dict>
+						<key>public.filename-extension</key>
+						<array>
+							<string>fun</string>
+						</array>
+					</dict>
+				</dict>
+			</array>
+		</dict>
+		<dict/>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -36,9 +61,16 @@
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array>
 		<string>MKDirectionsModeBike</string>
+		<string>MKDirectionsModeBus</string>
 		<string>MKDirectionsModeCar</string>
+		<string>MKDirectionsModeFerry</string>
+		<string>MKDirectionsModeOther</string>
 		<string>MKDirectionsModePedestrian</string>
+		<string>MKDirectionsModePlane</string>
+		<string>MKDirectionsModeRideShare</string>
+		<string>MKDirectionsModeStreetCar</string>
 		<string>MKDirectionsModeSubway</string>
+		<string>MKDirectionsModeTaxi</string>
 		<string>MKDirectionsModeTrain</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
@@ -69,6 +101,49 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>My Custom Binary File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.cwxstat.rx.PhotoSelect.myfiletype</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>sqlite</string>
+					<string>Zsqlite</string>
+					<string>photoSelect</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>CFBundleDocumentTypes</key>
+			<array>
+				<dict>
+					<key>CFBundleTypeExtensions</key>
+					<array>
+						<string>pSelect</string>
+					</array>
+					<key>CFBundleTypeName</key>
+					<string>PhotoSelect</string>
+					<key>New item</key>
+					<string></string>
+				</dict>
+			</array>
+			<key>UTTypeIconFiles</key>
+			<array/>
+		</dict>
+		<dict/>
 	</array>
 </dict>
 </plist>
