@@ -10,9 +10,10 @@ import UIKit
 import MobileCoreServices
 import MapKit
 
-
-class ViewController: UIViewController {
-
+class ViewController: UIViewController,
+  UINavigationControllerDelegate,
+UIImagePickerControllerDelegate {
+  
   @IBOutlet weak var imageView0: UIImageView!
   @IBOutlet weak var imageView1: UIImageView!
   
@@ -22,27 +23,56 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
   }
-
+  
   @IBAction func button0(_ sender: UIButton) {
     
-    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
-      print("Button capture")
-      let imag = UIImagePickerController()
-      
-//      
-//      imag.delegate = (self as! UIImagePickerControllerDelegate & UINavigationControllerDelegate)
-//      imag.sourceType = UIImagePickerController.SourceType.photoLibrary;
-//      //imag.mediaTypes = [kUTTypeImage];
-//      imag.allowsEditing = false
-//      self.present(imag, animated: true, completion: nil)
+    let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+      self.openCamera()
+    }))
+    
+    alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+      self.openGallery()
+    }))
+    
+    alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+    
+    self.present(alert, animated: true, completion: nil)
+    
+  }
+  
+  func openCamera() {
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+      let imagePicker = UIImagePickerController()
+      imagePicker.delegate = self
+      imagePicker.sourceType = UIImagePickerController.SourceType.camera
+      imagePicker.allowsEditing = false
+      self.present(imagePicker, animated: true, completion: nil)
+    } else {
+      let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+      self.present(alert, animated: true, completion: nil)
     }
   }
   
+  func openGallery() {
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+      let imagePicker = UIImagePickerController()
+      imagePicker.delegate = self
+      imagePicker.allowsEditing = true
+      imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+      self.present(imagePicker, animated: true, completion: nil)
+    } else {
+      let alert  = UIAlertController(title: "Warning", message: "You don't have perission to access gallery.", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+      self.present(alert, animated: true, completion: nil)
+    }
+  }
   
   @IBAction func button1(_ sender: UIButton) {
-    
     getSnap()
   }
+  
   func getSnap() {
     
     let snapshotterOptions = MKMapSnapshotter.Options()
@@ -52,83 +82,41 @@ class ViewController: UIViewController {
     
     let snapshotter = MKMapSnapshotter(options: snapshotterOptions)
     
-    snapshotter.start() {
-      snapshot, error in
+    snapshotter.start { snapshot, _ in
       
       let image = snapshot!.image
       
-      
-      
-      _ = CGRect(x: 0, y: 0,width:  image.size.width,height: image.size.height)
+      _ = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
       let pin = MKPinAnnotationView(annotation: nil, reuseIdentifier: "")
       let pinImage = pin.image
       
-      UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-      pinImage!.draw(at: CGPoint(x: 0,y: 0))
+      UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+      pinImage!.draw(at: CGPoint(x: 0, y: 0))
       let path = UIBezierPath()
-      path.move(to: CGPoint(x: 20,y:  20))
+      path.move(to: CGPoint(x: 20, y: 20))
       path.lineWidth = 2.0
       _ = UIGraphicsGetImageFromCurrentImageContext()
       
-      image.draw(at: CGPoint(x: 0,y: 0))
+      image.draw(at: CGPoint(x: 0, y: 0))
       UIGraphicsEndImageContext()
       
       self.imageView1.image = image
-      
-      //      // draw center/home marker
-      //      var homePoint = snapshot!.pointForCoordinate(mapView.coordinate)
-      //      pinImage.drawAtPoint(homePoint)
-      //
-      //      // draw polygon
-      //      var path = UIBezierPath()
-      //
-      //      for (i, coordinate) in enumerate(self.areaCoordinates) {
-      //        var point = snapshot.pointForCoordinate(coordinate)
-      //
-      //        if (CGRectContainsPoint(finalImageRect, point)) {
-      //          if i == 0 {
-      //            path.moveToPoint(point)
-      //          } else {
-      //            path.addLineToPoint(point)
-      //          }
-      //        }
-      //      }
-      //
-      //      path.closePath()
-      //
-      //      UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
-      //      UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
-      //
-      //      path.lineWidth = 2.0
-      //      path.stroke()
-      //      path.fill()
-      //
-      //      let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-      //      UIGraphicsEndImageContext()
-      //
-      //      self.snapshotImage = finalImage
+
     }
     
-    
-    
   }
   
-  
-  
-  
-  
-  
-  
-  
-  func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
-    let selectedImage : UIImage = image
-    //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
-    imageView0.image=selectedImage
-    self.dismiss(animated: true, completion: nil)
+  func imagePickerController(_ picker: UIImagePickerController,
+                             didFinishPickingMediaWithInfo
+                info: [UIImagePickerController.InfoKey: Any]) {
+    
+    guard let selectedImage = info[.originalImage] as? UIImage else {
+      fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+    }
+    
+    imageView0.image = selectedImage
+    
+    picker.dismiss(animated: true, completion: nil)
   }
-  
-  
-  
   
 }
-
