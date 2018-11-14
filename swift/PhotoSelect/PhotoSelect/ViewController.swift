@@ -28,6 +28,16 @@ UIImagePickerControllerDelegate {
   static func importData(from url: URL) {
     print("This is url: \(url)")
     do {
+      
+      // Quick record url
+      let sqliteBroker = SqliteBroker()
+      var stmt = "create table if not exists uploadURLS (notes text,url text);"
+      let table = "test.sqlite"
+      sqliteBroker.sqlExe(table: table, stmt: stmt)
+      
+      stmt = "insert into uploadURLS (ur) values ('\(url)');"
+      sqliteBroker.sqlExe(table: table, stmt: stmt)
+      
       try FileManager.default.removeItem(at: url)
     } catch {
       print("Failed to remove item from Inbox")
