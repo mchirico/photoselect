@@ -2,8 +2,8 @@
 //  PhotoSelectTests.swift
 //  PhotoSelectTests
 //
-//  Created by Michael Chirico on 11/10/18.
-//  Copyright © 2018 Michael Chirico. All rights reserved.
+//  Created by Mike Chirico on 1/1/20.
+//  Copyright © 2020 Mike Chirico. All rights reserved.
 //
 
 import XCTest
