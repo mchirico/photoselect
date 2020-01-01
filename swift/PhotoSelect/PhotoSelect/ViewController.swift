@@ -21,7 +21,54 @@ UIImagePickerControllerDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    print("open")
     // Do any additional setup after loading the view, typically from a nib.
+  }
+  
+  static func importData(from url: URL) {
+    print("This is url: \(url)")
+    do {
+      
+      // Quick record url
+      let sqliteBroker = SqliteBroker()
+      var stmt = "create table if not exists uploadURLS (notes text,url text);"
+      let table = "test.sqlite"
+      sqliteBroker.sqlExe(table: table, stmt: stmt)
+      
+      stmt = "insert into uploadURLS (ur) values ('\(url)');"
+      sqliteBroker.sqlExe(table: table, stmt: stmt)
+      
+      try FileManager.default.removeItem(at: url)
+    } catch {
+      print("Failed to remove item from Inbox")
+    }
+  }
+  
+  @IBAction func button3(_ sender: UIButton) {
+    
+    let sqliteBroker = SqliteBroker()
+    
+    let textToShare = "SQLite database"
+    
+    if let img = imageView1.image {
+
+      let pngData: Data = img.pngData()!
+      
+      let stmt = "create table if not exists blobtest (des varchar(80),b blob);"
+      let table = "test.sqlite"
+      sqliteBroker.sqlExe(table: table, stmt: stmt)
+      sqliteBroker.insertBlob("test", n: pngData)
+      
+      let documents = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+      let fileURL = documents.appendingPathComponent(table)
+      
+      let objectsToShare = [textToShare, fileURL] as [Any]
+      let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+      
+      activityVC.popoverPresentationController?.sourceView = sender
+      self.present(activityVC, animated: true, completion: nil)
+    }
+    
   }
   
   @IBAction func button0(_ sender: UIButton) {
@@ -49,8 +96,12 @@ UIImagePickerControllerDelegate {
       imagePicker.allowsEditing = false
       self.present(imagePicker, animated: true, completion: nil)
     } else {
-      let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+      let alert  = UIAlertController(title: "Warning",
+                                     message: "You don't have camera",
+                                     preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "OK",
+                                    style: .default,
+                                    handler: nil))
       self.present(alert, animated: true, completion: nil)
     }
   }
@@ -63,7 +114,9 @@ UIImagePickerControllerDelegate {
       imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
       self.present(imagePicker, animated: true, completion: nil)
     } else {
-      let alert  = UIAlertController(title: "Warning", message: "You don't have perission to access gallery.", preferredStyle: .alert)
+      let alert  = UIAlertController(title: "Warning",
+                                     message: "You don't have perission to access gallery.",
+                                     preferredStyle: .alert)
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
       self.present(alert, animated: true, completion: nil)
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5CE790621989F8B004D3C99 /* SqliteBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE790521989F8B004D3C99 /* SqliteBroker.swift */; };
 		A5F51FF721975D2800608E29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F51FF621975D2800608E29 /* AppDelegate.swift */; };
 		A5F51FF921975D2800608E29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F51FF821975D2800608E29 /* ViewController.swift */; };
 		A5F51FFC21975D2800608E29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F51FFA21975D2800608E29 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A5CE790521989F8B004D3C99 /* SqliteBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqliteBroker.swift; sourceTree = "<group>"; };
 		A5F51FF321975D2800608E29 /* PhotoSelect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoSelect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F51FF621975D2800608E29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5F51FF821975D2800608E29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,9 +79,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5CE790421989F6D004D3C99 /* SqliteBroker */ = {
+			isa = PBXGroup;
+			children = (
+				A5CE790521989F8B004D3C99 /* SqliteBroker.swift */,
+			);
+			path = SqliteBroker;
+			sourceTree = "<group>";
+		};
 		A5F51FEA21975D2800608E29 = {
 			isa = PBXGroup;
 			children = (
+				A5CE790421989F6D004D3C99 /* SqliteBroker */,
 				A5F51FF521975D2800608E29 /* PhotoSelect */,
 				A5F5200A21975D2900608E29 /* PhotoSelectTests */,
 				A5F5201521975D2900608E29 /* PhotoSelectUITests */,
@@ -296,6 +307,7 @@
 			files = (
 				A5F51FF921975D2800608E29 /* ViewController.swift in Sources */,
 				A5F51FF721975D2800608E29 /* AppDelegate.swift in Sources */,
+				A5CE790621989F8B004D3C99 /* SqliteBroker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
